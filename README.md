@@ -12,6 +12,10 @@ up/down = track select
 right/left = device select
 middle button = shift
 
+shift + up = metronome toggle
+shift + left = undo
+shift + right = redo
+
 Transport buttons:
 stop = stop
 play = play
