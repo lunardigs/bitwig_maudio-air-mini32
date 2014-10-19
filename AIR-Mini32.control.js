@@ -1,13 +1,13 @@
 /*
 Bitwig 1.0.x controller script for M-Audio Axiom A.I.R. Mini32
 latest version: https://github.com/lunardigs/bitwig_maudio-air-mini32
-version 1.0
+version 1.1
 */
 
 loadAPI(1);
 
 host.defineController("MAudio", "Mini32", "1.0", "B2E17CB0-516B-11E4-916C-0800200C9A66");
-host.defineMidiPorts(1, 1);
+host.defineMidiPorts(1, 0); // Mini32 MIDI send only
 host.addDeviceNameBasedDiscoveryPair(["Mini32"], ["Mini32"]);
 
 var CC =
@@ -31,7 +31,10 @@ var isShift = false; // Default shift value
 function init()
 {
   host.getMidiInPort(0).setMidiCallback(onMidi);
+  generic = host.getMidiInPort(0).createNoteInput("MIDI Keyboard", "??????");
+  generic.setShouldConsumeEvents(false);
 
+  application = host.createApplication();
   transport = host.createTransport();
   cursorTrack = host.createCursorTrackSection(2, 0);
   cursorDevice = host.createCursorDeviceSection(8);
@@ -96,35 +99,36 @@ function onMidi(status, data1, data2)
 	{
 		switch (data1)
 		{
-			case CC.PLAY:
+			case CC.PLAY: // Play = play. Play + shift = solo selected track
 				isShift ? cursorTrack.getSolo().toggle() : transport.play();
 				break;
 
-			case CC.STOP:
+			case CC.STOP: // Stop = Stop. Stop + shift = mute selected track
 				isShift ? cursorTrack.getMute().toggle() : transport.stop();
 				break;
 
-			case CC.REC:
+			case CC.REC: // Rec = Record. Rec + shift = arm selected track
 				isShift ? cursorTrack.getArm().toggle() : transport.record();
 				break;
 				
-			case CC.PREV_TRACK:
-				cursorTrack.selectPrevious();
+			case CC.PREV_TRACK: // Up = previous track. Up + shift = metronome toggle
+				isShift ? transport.toggleClick() : cursorTrack.selectPrevious();
 				break;
 				
-			case CC.NEXT_TRACK:
+			case CC.NEXT_TRACK: // Down = next track
 				cursorTrack.selectNext();
 				break;
 				
-			case CC.PREV_DEVICE:
-				cursorDevice.selectPrevious();
+			case CC.PREV_DEVICE: // Left = previous device. Left + shift = undo
+				isShift ? application.undo() : cursorDevice.selectPrevious();
 				break;
-				
-			case CC.NEXT_DEVICE:
-				cursorDevice.selectNext();
+
+			case CC.NEXT_DEVICE: // Right = next device. Right + shift = redo
+				isShift ? application.redo() : cursorDevice.selectNext();
 				break;
 		}
 	}
+	
 	// Shift button
 	switch (data1)
 	{
