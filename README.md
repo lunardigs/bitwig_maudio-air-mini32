@@ -26,6 +26,7 @@ The Mini32 is a simple, light weight, 32 key keyboard controller with 8 drum pad
 * shift + down = toggle overdub (OVR)
 * shift + left = undo
 * shift + right = redo
+* shift + knob 8 = Master volume adjust
 
 ###TRACK mode
 
