@@ -1,6 +1,6 @@
-#bitwig_maudio-air-mini32 - 2.0
+# bitwig_maudio-air-mini32 - 2.0
 
-##Bitwig 1.x.x & 2.x.x controller script for the M-Audio Axion A.I.R. Mini32
+## Bitwig 1.x.x & 2.x.x controller script for the M-Audio Axion A.I.R. Mini32
 
 **WARNING:** UPON LOADING THIS SCRIPT, A SYSEX MESSAGE WILL BE SENT WHICH WILL OVERWRITE MEMORY SLOT 0 (ZERO) ON YOUR MINI32. No other memory slots will be affected. The reason for doing this is that the Mini32's default knob-CC assignments (CC 1-8) overlaps standard MIDI funtions that will interfere with recodings.
 
@@ -8,9 +8,9 @@
 
 The Mini32 is a simple, light weight, 32 key keyboard controller with 8 drum pads, 8 CC knobs, plus a number a nice features. It's great for travel and it's very playable.
 
-#Functions
+# Functions
 
-###Transport
+### Transport
 * stop = stop
 * play = play
 * rec = rec
@@ -18,7 +18,7 @@ The Mini32 is a simple, light weight, 32 key keyboard controller with 8 drum pad
 * shift + play = solo selected track
 * shift + rec = arm selected track
 
-###Mode-independent functions
+### Mode-independent functions
 * middle cursor button = shift
 * sub-mode button = cycle sub-mode of current mode
 * shift + sub-mode button = cycle mode
@@ -28,9 +28,9 @@ The Mini32 is a simple, light weight, 32 key keyboard controller with 8 drum pad
 * shift + right = redo
 * shift + knob 8 = Master volume adjust
 
-###ARRANGER mode
+### ARRANGER mode
 
-#####Cursor buttons:
+##### Cursor buttons:
 * up/down cursor = track select
 * right/left cursor = device select
 * mode button (above cursor buttons, left of knobs) = change sub-mode
@@ -48,9 +48,9 @@ The Mini32 is a simple, light weight, 32 key keyboard controller with 8 drum pad
     * shift + knob 8 = Master volume
   * DEVICE sub-mode = CC control knobs to macro 1-8 of cursor selected device
 
-###MIXER mode
+### MIXER mode
 
-#####Cursor buttons:
+##### Cursor buttons:
 * up/down = change panel focus to above or below current
 * right/left = cursor right/left within the panel focus
 * mode button (above cursor buttons, left of knobs) = change sub-mode
@@ -66,6 +66,6 @@ The Mini32 is a simple, light weight, 32 key keyboard controller with 8 drum pad
   * SEND 7 sub-mode = CC control knobs to track 1-8 send 7 adjust
   * SEND 8 sub-mode = CC control knobs to track 1-8 send 8 adjust
 
-##Notes
+## Notes
 1. **Setup:** It is necessary to set the Mini32's incoming and outgoing MIDI ports, both 1 & 2 for proper operation. The reason for this is that m-audio has made it such that the "sub-mode" button sends data to port 2, while everything else (for purposes of this script) arrive on port 1. Later versions of this script may eliminate this necessity.
 2. Knobs in MIXER mode presently are fixed to tracks 1-8. Later versions will utilize Track Banks to enhance this function and remove this limit.
