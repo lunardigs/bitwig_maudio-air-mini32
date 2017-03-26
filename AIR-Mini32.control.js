@@ -49,7 +49,7 @@ function inKnobRange(cc) {
 // Initialize
 function init()
 {
-    M32.note = host.getMidiInPort(0).createNoteInput("Keys", "90????", "E000??", "B001??");
+    M32.note = host.getMidiInPort(0).createNoteInput("Keys", "90????", "E000??", "B0????");
     M32.note.setShouldConsumeEvents(false);
 
     host.getMidiInPort(0).setMidiCallback(onMidi0);
@@ -87,8 +87,8 @@ function init()
 // MIDI Events
 function onMidi0(status, data1, data2) // onMidi0 events
 {
-    println("Midi 0")
-    printMidi(status, data1, data2);
+    //println("Midi 0")
+    //printMidi(status, data1, data2);
 
     // Shift button pressed status
     switch (data1) {
@@ -125,7 +125,7 @@ function onMidi0(status, data1, data2) // onMidi0 events
     // ARRANGER mode knobs for selected track
     if (M32.modeName[M32.isMode] == ARRANGER && M32.modeName[M32.isMode][M32.isSubMode] == "TRACK") 
     {
-        if (data2 != 0) // ignore button release
+        if (status == 176 && data2 != 0) // ignore button release
         {
             switch (data1) {
                 case M32.KNOB_1: // Volume selected track
@@ -166,20 +166,15 @@ function onMidi0(status, data1, data2) // onMidi0 events
     // MIXER mode knobs for selected trackBank
     if (M32.modeName[M32.isMode] == MIXER && M32.modeName[M32.isMode][M32.isSubMode] == "VOLUME")
     {
-        if (inKnobRange(data1) && M32.isShift == false)
+        if (status == 176 && inKnobRange(data1) && M32.isShift == false)
             {
-                //if (M32.trackBank.getTrack() >= 8)
-                //{ channelScrollPosition
-                    //M32.trackBank.scrollChannelsPageDown();
-                    //println("vol");
-                //}
                 M32.trackBank.getChannel(data1 - M32.KNOB_START_CC).getVolume().set(data2, 128);
             }
     }
     
     if (M32.modeName[M32.isMode] == MIXER && M32.modeName[M32.isMode][M32.isSubMode] == "PAN")
     {
-        if (inKnobRange(data1) && M32.isShift == false)
+        if (status == 176 && inKnobRange(data1) && M32.isShift == false)
             {
                 M32.trackBank.getChannel(data1 - M32.KNOB_START_CC).getPan().set(data2, 128);
             }
@@ -187,7 +182,7 @@ function onMidi0(status, data1, data2) // onMidi0 events
     
     if (M32.modeName[M32.isMode] == MIXER && M32.modeName[M32.isMode][M32.isSubMode] == "SEND 1")
     {
-        if (inKnobRange(data1) && M32.isShift == false)
+        if (status == 176 && inKnobRange(data1) && M32.isShift == false)
             {
                 M32.trackBank.getChannel(data1 - M32.KNOB_START_CC).getSend(0).set(data2, 128);
             }
@@ -195,7 +190,7 @@ function onMidi0(status, data1, data2) // onMidi0 events
 
     if (M32.modeName[M32.isMode] == MIXER && M32.modeName[M32.isMode][M32.isSubMode] == "SEND 2")
     {
-        if (inKnobRange(data1) && M32.isShift == false)
+        if (status == 176 && inKnobRange(data1) && M32.isShift == false)
             {
                 M32.trackBank.getChannel(data1 - M32.KNOB_START_CC).getSend(1).set(data2, 128);
             }
@@ -203,7 +198,7 @@ function onMidi0(status, data1, data2) // onMidi0 events
 
     if (M32.modeName[M32.isMode] == MIXER && M32.modeName[M32.isMode][M32.isSubMode] == "SEND 3")
     {
-        if (inKnobRange(data1) && M32.isShift == false)
+        if (status == 176 && inKnobRange(data1) && M32.isShift == false)
             {
                 M32.trackBank.getChannel(data1 - M32.KNOB_START_CC).getSend(2).set(data2, 128);
             }
@@ -211,7 +206,7 @@ function onMidi0(status, data1, data2) // onMidi0 events
     
     if (M32.modeName[M32.isMode] == MIXER && M32.modeName[M32.isMode][M32.isSubMode] == "SEND 4")
     {
-        if (inKnobRange(data1) && M32.isShift == false)
+        if (status == 176 && inKnobRange(data1) && M32.isShift == false)
             {
                 M32.trackBank.getChannel(data1 - M32.KNOB_START_CC).getSend(3).set(data2, 128);
             }
@@ -219,7 +214,7 @@ function onMidi0(status, data1, data2) // onMidi0 events
     
     if (M32.modeName[M32.isMode] == MIXER && M32.modeName[M32.isMode][M32.isSubMode] == "SEND 5")
     {
-        if (inKnobRange(data1) && M32.isShift == false)
+        if (status == 176 && inKnobRange(data1) && M32.isShift == false)
             {
                 M32.trackBank.getChannel(data1 - M32.KNOB_START_CC).getSend(4).set(data2, 128);
             }
@@ -227,7 +222,7 @@ function onMidi0(status, data1, data2) // onMidi0 events
     
     if (M32.modeName[M32.isMode] == MIXER && M32.modeName[M32.isMode][M32.isSubMode] == "SEND 6")
     {
-        if (inKnobRange(data1) && M32.isShift == false)
+        if (status == 176 && inKnobRange(data1) && M32.isShift == false)
             {
                 M32.trackBank.getChannel(data1 - M32.KNOB_START_CC).getSend(5).set(data2, 128);
             }
@@ -235,7 +230,7 @@ function onMidi0(status, data1, data2) // onMidi0 events
 
     if (M32.modeName[M32.isMode] == MIXER && M32.modeName[M32.isMode][M32.isSubMode] == "SEND 7")
     {
-        if (inKnobRange(data1) && M32.isShift == false)
+        if (status == 176 && inKnobRange(data1) && M32.isShift == false)
             {
                 M32.trackBank.getChannel(data1 - M32.KNOB_START_CC).getSend(6).set(data2, 128);
             }
@@ -243,7 +238,7 @@ function onMidi0(status, data1, data2) // onMidi0 events
     
     if (M32.modeName[M32.isMode] == MIXER && M32.modeName[M32.isMode][M32.isSubMode] == "SEND 8")
     {
-        if (inKnobRange(data1) && M32.isShift == false)
+        if (status == 176 && inKnobRange(data1) && M32.isShift == false)
             {
                 M32.trackBank.getChannel(data1 - M32.KNOB_START_CC).getSend(7).set(data2, 128);
             }
@@ -294,8 +289,10 @@ function onMidi0(status, data1, data2) // onMidi0 events
 } // end onMidi0 events
 
 function onMidi1(status, data1, data2) { // onMidi1 events
-    println("Midi 1")
-    printMidi(status, data1, data2);
+    
+    //println("Midi 1")
+    //printMidi(status, data1, data2);
+    
     if (data2 > 0) // ignore button release
     {
         switch (data1) {
