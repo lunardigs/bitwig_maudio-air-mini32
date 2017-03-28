@@ -91,11 +91,13 @@ function onMidi0(status, data1, data2) // onMidi0 events
     //printMidi(status, data1, data2);
 
     // Shift button pressed status
-    switch (data1) {
-        case M32.SHIFT:
-            M32.isShift = data2 != 0;
-            //M32.note.sendRawMidiEvent(0, 0, 0);
-            break;
+    if (status == 176 && data2 != 0)
+    {
+        switch (data1) {
+            case M32.SHIFT:
+                M32.isShift = data2 != 0;
+                break;
+        }
     }
     
     // MASTER section controls, accessible in any mode 
@@ -254,7 +256,7 @@ function onMidi0(status, data1, data2) // onMidi0 events
     }
    
     //Transport and cursor for tracks (up, down) and devices (left, right)
-    if (data2 > 0) // ignore button release
+    if (status == 176 && data2 != 0) // ignore button release
     {
         switch (data1) {
             case M32.PLAY: // Play = play. Play + shift = solo selected track
@@ -274,15 +276,15 @@ function onMidi0(status, data1, data2) // onMidi0 events
                 break;
 
             case M32.DOWN: // Down = next track
-                M32.isShift ? M32.transport.toggleClick() : cursorAction(M32.DOWN); // cursorTrack.selectNext();
+                M32.isShift ? M32.transport.toggleClick() : cursorAction(M32.DOWN);
                 break;
 
             case M32.LEFT: // Left = previous device. Left + shift = undo
-                M32.isShift ? M32.application.undo() : cursorAction(M32.LEFT); // cursorDevice.selectPrevious();
+                M32.isShift ? M32.application.undo() : cursorAction(M32.LEFT);
                 break;
 
             case M32.RIGHT: // Right = next device. Right + shift = redo
-                M32.isShift ? M32.application.redo() : cursorAction(M32.RIGHT); // cursorDevice.selectNext();
+                M32.isShift ? M32.application.redo() : cursorAction(M32.RIGHT);
                 break;
         }
     }
