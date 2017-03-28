@@ -91,7 +91,7 @@ function onMidi0(status, data1, data2) // onMidi0 events
     //printMidi(status, data1, data2);
 
     // Shift button pressed status
-    if (status == 176 && data2 != 0)
+    if (status == 176)
     {
         switch (data1) {
             case M32.SHIFT:
